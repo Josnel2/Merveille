@@ -1,0 +1,25 @@
+{
+  "name": "merveille",
+  "version": "1.0.0",
+  "description": "Romantic love animation page for Jiongo Pierrette Merveille",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "framer-motion": "^12.23.26",
+    "next": "^16.0.10",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14"
+  }
+}

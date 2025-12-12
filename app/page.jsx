@@ -11,6 +11,8 @@ export default function Page() {
   const [showMessage, setShowMessage] = useState(false);
   const [clickHearts, setClickHearts] = useState([]);
   const [typeText, setTypeText] = useState("");
+  const [burstId, setBurstId] = useState(0);
+  const [burstStars, setBurstStars] = useState([]);
   const fullText =
     "lis attentivement cette lettre jusqu'au bout";
 
@@ -51,6 +53,18 @@ export default function Page() {
         ? crypto.randomUUID()
         : `heart-${Date.now()}-${Math.random().toString(16).slice(2)}`;
     setClickHearts((prev) => [...prev.slice(-10), { id, x, y }]);
+  };
+
+  const triggerStarBurst = () => {
+    setBurstId((v) => v + 1);
+    const stars = Array.from({ length: 120 }).map((_, i) => ({
+      id: `star-${Date.now()}-${i}`,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      delay: Math.random() * 0.35,
+      size: 14 + Math.random() * 16,
+    }));
+    setBurstStars(stars);
   };
 
   return (
@@ -119,21 +133,26 @@ export default function Page() {
 
           {/* Button + Message */}
           <div className="mt-10 flex flex-col items-center justify-center gap-4">
-            <motion.div
-              animate={{
-                scale: [1, 1.06, 1],
-              }}
-              transition={{
-                duration: 1.6,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              <LoveButton
-                onClick={() => setShowMessage((v) => !v)}
-                active={showMessage}
-              />
-            </motion.div>
+            <div className="relative">
+              <motion.div
+                animate={{
+                  scale: [1, 1.06, 1],
+                }}
+                transition={{
+                  duration: 1.6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                <LoveButton
+                  onClick={() => {
+                    setShowMessage((v) => !v);
+                    triggerStarBurst(); // trigger star burst
+                  }}
+                  active={showMessage}
+                />
+              </motion.div>
+            </div>
 
             <AnimatePresence>
               {showMessage && (
@@ -164,6 +183,47 @@ export default function Page() {
       </main>
 
       <ClickHearts hearts={clickHearts} />
+
+      {/* Full-page star burst overlay */}
+      <AnimatePresence>
+        {burstId > 0 && (
+          <motion.div
+            key={burstId}
+            className="pointer-events-none fixed inset-0 z-30"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {burstStars.map((star) => (
+              <motion.span
+                key={star.id}
+                className="absolute drop-shadow-[0_0_18px_rgba(236,72,153,0.9)]"
+                style={{
+                  left: `${star.x}%`,
+                  top: `${star.y}%`,
+                  color: "#facc15",
+                  fontSize: `${star.size}px`,
+                }}
+                initial={{ scale: 0, opacity: 0, rotate: 0, y: 8 }}
+                animate={{
+                  scale: [0, 1.3, 1],
+                  opacity: [0, 1, 0],
+                  rotate: [0, 25, -20],
+                  y: [-6, 0, -10],
+                }}
+                transition={{
+                  duration: 1.1,
+                  ease: "easeOut",
+                  delay: star.delay,
+                }}
+              >
+                ★
+              </motion.span>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

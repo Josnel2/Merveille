@@ -139,7 +139,7 @@ export default function Page() {
               {showMessage && (
                 <MessageBox
                   key="message"
-                  title="Message du jour"
+                  title="12/12/2025"
                   message="Bonjour Princesse"
                   delay={0.1}
                 />

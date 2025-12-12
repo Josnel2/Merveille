@@ -146,6 +146,20 @@ export default function Page() {
               )}
             </AnimatePresence>
           </div>
+
+          {/* Love audio (Spotify embed) */}
+          <div className="mt-8 flex justify-center">
+            <div className="relative w-full max-w-xl overflow-hidden rounded-2xl border border-white/10 shadow-xl shadow-rose-500/25">
+              <iframe
+                src="https://open.spotify.com/embed/track/4iNPp0BZ4lBu7bipdWLcWk?utm_source=generator&theme=0"
+                width="100%"
+                height="152"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+                title="Laura Ferre - Chanson d'amour"
+              />
+            </div>
+          </div>
         </div>
       </main>
 
